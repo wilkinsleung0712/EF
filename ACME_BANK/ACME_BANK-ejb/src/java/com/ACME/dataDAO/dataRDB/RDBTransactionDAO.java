@@ -77,11 +77,10 @@ public class RDBTransactionDAO implements TransactionDAO
 
             result.next();
 
-            Transaction transaction = new Transaction(result.getInt(1),
-                    result.getInt(2), result.getDouble(3),
-                    result.getString(4));
+            Transaction transactions = new Transaction(result.getInt("T_ID"),
+                        result.getInt("ACCNUM"), result.getDouble("AMOUNT"), result.getString("DESCRIPTION"));;
 
-            return transaction;
+            return transactions;
         }
         catch (SQLException sqlException)
         {
@@ -102,8 +101,8 @@ public class RDBTransactionDAO implements TransactionDAO
 
             while (result.next())
             {
-                Transaction transactions = new Transaction(result.getInt(1),
-                        result.getInt(2), result.getDouble(3), result.getString(4));
+                Transaction transactions = new Transaction(result.getInt("T_ID"),
+                        result.getInt("ACCNUM"), result.getDouble("AMOUNT"), result.getString("DESCRIPTION"));
 
                 transactionList.add(transactions);
             }
@@ -117,7 +116,7 @@ public class RDBTransactionDAO implements TransactionDAO
     }
 
     @Override
-    public Collection<Transaction> getAllTransactionAccountByAccNum() {
+    public Collection getAllTransactionAccountByAccNum() {
          try
         {
             PreparedStatement sqlStatement = dbConnection.prepareStatement(SQL_GETALL_BY_ACC_NYM_TRANSACTIONS);
@@ -126,8 +125,8 @@ public class RDBTransactionDAO implements TransactionDAO
 
             while (result.next())
             {
-                Transaction transactions = new Transaction(result.getInt(1),
-                        result.getInt(2), result.getDouble(3), result.getString(4));
+                Transaction transactions = new Transaction(result.getInt("T_ID"),
+                        result.getInt("ACCNUM"), result.getDouble("AMOUNT"), result.getString("DESCRIPTION"));
 
                 transactionList.add(transactions);
             }

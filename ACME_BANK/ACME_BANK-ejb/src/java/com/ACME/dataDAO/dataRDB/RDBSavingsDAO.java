@@ -72,9 +72,9 @@ public class RDBSavingsDAO implements SavingsDAO
             ResultSet result = sqlStatement.executeQuery();
             result.next();
 
-            Savings savingsAccount = new Savings(result.getInt(1),
-                    result.getInt(2),
-                    result.getDouble(3));
+            Savings savingsAccount = new Savings(result.getInt("C_ID"),
+                        result.getInt("ACCNUM"),
+                        result.getDouble("BALANCE"));
 
             return savingsAccount;
 
@@ -104,6 +104,7 @@ public class RDBSavingsDAO implements SavingsDAO
         catch (SQLException sqlException)
         {
             System.out.println(sqlException.getMessage());
+            
         }
     }
 
@@ -126,7 +127,7 @@ public class RDBSavingsDAO implements SavingsDAO
     }
 
     @Override
-    public Collection<Savings> getAllSavingsAccount()
+    public Collection getAllSavingsAccount()
     {
         try
         {
@@ -136,9 +137,9 @@ public class RDBSavingsDAO implements SavingsDAO
 
             while (result.next())
             {
-                Savings savingsAccount = new Savings(result.getInt(1),
-                        result.getInt(2),
-                        result.getDouble(3));
+                Savings savingsAccount = new Savings(result.getInt("C_ID"),
+                        result.getInt("ACCNUM"),
+                        result.getDouble("BALANCE"));
 
                 savingsAccountList.add(savingsAccount);
             }
@@ -152,4 +153,6 @@ public class RDBSavingsDAO implements SavingsDAO
         System.out.println("Savings SIZE: " + savingsAccountList.size());
         return savingsAccountList;
     }
+
+   
 }

@@ -25,4 +25,5 @@ public interface AcmeBankStatlessSessionBeanRemote {
     public boolean makeWithdrawal(int accountNumber, double amount, String description);
     public String[] viewBalance(int accountNumber);
     public Collection getCustomerList();
+    public Collection getSavingAccountList();
 }

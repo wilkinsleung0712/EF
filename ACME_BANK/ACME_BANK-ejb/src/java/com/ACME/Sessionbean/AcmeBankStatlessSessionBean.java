@@ -8,10 +8,13 @@ package com.ACME.Sessionbean;
 
 import com.ACME.data.Customer;
 import com.ACME.data.Savings;
+import com.ACME.data.Transaction;
 import com.ACME.dataDAO.CustomerDAO;
 import com.ACME.dataDAO.SavingsDAO;
+import com.ACME.dataDAO.TransactionDAO;
 import com.ACME.dataDAO.dataRDB.RDBCustomerDAO;
 import com.ACME.dataDAO.dataRDB.RDBSavingsDAO;
+import com.ACME.dataDAO.dataRDB.RDBTransactionDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -122,11 +125,22 @@ public class AcmeBankStatlessSessionBean implements AcmeBankStatlessSessionBeanR
     public boolean makeDeposit(int accountNumber, double amount, String description) {
          boolean operationResult=false; 
           try{
-            CustomerDAO dao=new RDBCustomerDAO(connection);
+              //make the deposit for the customer
+            SavingsDAO dao=new RDBSavingsDAO(connection);
+            Savings account=dao.readSavingsAccount(accountNumber);
+            account.makeDeposit(amount);
+            dao.updateSavingsAccount(account);
+            //record the transaction for this operations
+            operationResult=true;
+            
           }catch(Exception ex){
             System.out.println("SERVER ERROR: Make deposit on Account <AN: "+accountNumber+" AMOUNT: "+amount+" > fail.");
-            operationResult=false;
-        }
+        }finally{
+              TransactionDAO tdao=new RDBTransactionDAO(connection);
+              Transaction transaction=new Transaction(accountNumber,amount,description);
+              tdao.createTransaction(transaction);
+              
+          }
         
         return operationResult;
     }
@@ -166,5 +180,18 @@ public class AcmeBankStatlessSessionBean implements AcmeBankStatlessSessionBeanR
         }
         custList.add("Customer List\n");
         return custList;
+    }
+
+    @Override
+    public Collection getSavingAccountList() {
+        SavingsDAO dao=new RDBSavingsDAO(connection);
+        Collection<String> savingsList=new HashSet<>();
+        Collection<Savings> sl=dao.getAllSavingsAccount();
+        
+        for(Savings s:sl){
+            savingsList.add(s.toString()+"\n");
+        }
+        savingsList.add("Savings Account List\n");
+        return savingsList;
     }
 }

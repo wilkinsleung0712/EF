@@ -370,6 +370,7 @@ public class Main {
 
                         System.out.println("Make a Deposit into Savings Account");
                         System.out.println("--------------------------------------");
+                        //System.out.println(customerBean.getSavingAccountList());
 
                         System.out.print("Enter Customers Account Number: ");
 

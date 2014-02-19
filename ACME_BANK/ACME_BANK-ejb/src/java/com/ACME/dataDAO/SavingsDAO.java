@@ -20,4 +20,5 @@ public interface SavingsDAO
     public void updateSavingsAccount(Savings savingsAccount);
     public void deleteSavingsAccount(int accountNumber);
     public Collection<Savings> getAllSavingsAccount();
+   
 }

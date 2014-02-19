@@ -24,11 +24,12 @@ public class RDBEmployeeDAO implements EmployeeDAO
     private Connection dbConnection = null;
     private HashSet employeeList = new HashSet();
     
-    private final String SQL_CREATE_EMPLOYEE="INSERT INTO ACME_BANK.EMPLOYEE(FIRSTNAME, LASTNAME, E_ID)"+ " VALUES (?, ?, ?)";
+    private final String SQL_CREATE_EMPLOYEE="INSERT INTO ACME_BANK.EMPLOYEE( E_ID,FIRSTNAME, LASTNAME)"+ " VALUES (?, ?, ?)";
     private final String SQL_READ_EMPLOYEE="SELECT * FROM ACME_BANK.EMPLOYEE WHERE E_ID = ?";
-    private final String SQL_UPDATE_EMPLOYEE="UPDATE ACME_BANK.EMPLOYEE SET FIRSTNAME=?, LASTNAME=? WHERE E_ID=?";
+    private final String SQL_GET_ALL_EMPLOYEE="SELECT * FROM ACME_BANK.EMPLOYEE ";
+    private final String SQL_UPDATE_EMPLOYEE="UPDATE ACME_BANK.EMPLOYEE SET FIRSTNAME=?, LASTNAME=?, PASSWORD=? WHERE E_ID=?";
     private final String SQL_DELETE_EMPLOYEE="DELTE FROM ACME_BANK.EMPLOYEE WHERE E_ID=?";
-
+    
     // Constructor
     public RDBEmployeeDAO(Connection connection)
     {
@@ -41,19 +42,17 @@ public class RDBEmployeeDAO implements EmployeeDAO
         try
         {
             PreparedStatement sqlStatement = dbConnection.prepareStatement(
-                    "INSERT INTO EMPLOYEE(E_ID, FIRSTNAME, LASTNAME, PASSWORD)"
-                    + "VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                   SQL_CREATE_EMPLOYEE, Statement.RETURN_GENERATED_KEYS);
 
-            sqlStatement.setInt(1, employee.E_ID);
-            sqlStatement.setString(2, employee.firstName);
-            sqlStatement.setString(3, employee.lastName);
-            sqlStatement.setString(4, employee.password);
-
+            sqlStatement.setInt(1, employee.getE_ID());
+            sqlStatement.setString(2, employee.getFirstName());
+            sqlStatement.setString(3, employee.getLastName());
+            
             sqlStatement.executeUpdate();
 
-            ResultSet result = sqlStatement.getGeneratedKeys();
+           /* ResultSet result = sqlStatement.getGeneratedKeys();
             result.next();
-            employee.E_ID = result.getInt(1);
+            employee.setE_ID(result.getInt(1));*/
         }
         catch (SQLException sqlException)
         {
@@ -66,9 +65,9 @@ public class RDBEmployeeDAO implements EmployeeDAO
     {
         try
         {
-            String sqlScript = "SELECT * FROM EMPLOYEE WHERE E_ID=?";
+           
 
-            PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlScript);
+            PreparedStatement sqlStatement = dbConnection.prepareStatement(SQL_READ_EMPLOYEE);
             sqlStatement.setInt(1, employeeId);
 
             ResultSet result = sqlStatement.executeQuery();
@@ -98,14 +97,13 @@ public class RDBEmployeeDAO implements EmployeeDAO
     {
         try
         {
-            String sqlScript = "UPDATE EMPLOYEE SET FIRSTNAME = ?, "
-                    + "LASTNAME = ?, PASSWORD = ? WHERE E_ID = ?";
+          
 
-            PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlScript);
-            sqlStatement.setString(1, employee.firstName);
-            sqlStatement.setString(2, employee.lastName);
-            sqlStatement.setString(3, employee.password);
-            sqlStatement.setInt(4, employee.E_ID);
+            PreparedStatement sqlStatement = dbConnection.prepareStatement(SQL_UPDATE_EMPLOYEE);
+            sqlStatement.setString(1, employee.getFirstName());
+            sqlStatement.setString(2, employee.getLastName());
+            sqlStatement.setString(3, employee.getPassword());
+            sqlStatement.setInt(4, employee.getE_ID());
 
             sqlStatement.executeUpdate();
         }
@@ -120,8 +118,8 @@ public class RDBEmployeeDAO implements EmployeeDAO
     {
         try
         {
-            String sqlScript = "DELETE FROM EMPLOYEE WHERE E_ID = ?";
-            PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlScript);
+         
+            PreparedStatement sqlStatement = dbConnection.prepareStatement(SQL_DELETE_EMPLOYEE);
             sqlStatement.setInt(1, employeeId);
 
             sqlStatement.executeUpdate();
@@ -133,13 +131,11 @@ public class RDBEmployeeDAO implements EmployeeDAO
     }
 
     @Override
-    public Collection<Employee> getAllEmployees()
+    public Collection getAllEmployees()
     {
         try
-        {
-            String sqlScript = "SELECT * FROM EMPLOYEE";
-
-            PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlScript);
+        { 
+            PreparedStatement sqlStatement = dbConnection.prepareStatement(SQL_GET_ALL_EMPLOYEE);
 
             ResultSet result = sqlStatement.executeQuery();
 

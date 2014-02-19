@@ -88,7 +88,7 @@ public class AcmeBankStatefullSessionBean implements AcmeBankStatefullSessionBea
 
             for (Employee e : employeeCollection)
             {
-                if (!String.valueOf(e.E_ID).equals(emplId)|| !e.password.equals(password))
+                if (!String.valueOf(e.getE_ID()).equals(emplId)|| !e.getPassword().equals(password))
                 {
                 } else {
                     detailsCheck = true;

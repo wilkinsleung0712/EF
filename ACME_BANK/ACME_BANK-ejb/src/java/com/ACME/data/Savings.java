@@ -92,4 +92,15 @@ public class Savings
         this.min = min;
     }
     
+    public void makeDeposit(double amount){
+        this.balance+=amount;
+    }
+    
+    public boolean withDraw(double amount){
+        if(balance>amount){
+            this.balance-=amount;
+            return true;
+        }
+        return false;
+    }
 }

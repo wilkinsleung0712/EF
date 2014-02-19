@@ -14,13 +14,13 @@ import java.util.Random;
 public class Employee
 {
     //Instance Variables
-    public int E_ID;
-    public String firstName;
-    public String lastName;
-    public String password;
-    Random rand = new Random();
-    int max = 99999999;
-    int min = 1;
+    private int E_ID;
+    private String firstName;
+    private String lastName;
+    private String password;
+    private Random rand = new Random();
+    private int max = 99999999;
+    private int min = 1;
 
     //Constructor
     public Employee(String firstName, String lastName, String password)
@@ -31,6 +31,7 @@ public class Employee
         this.password = password;
     }
 
+   
     public Employee(int E_ID, String firstName, String lastName, String password)
     {
         this.E_ID = E_ID;
@@ -38,4 +39,63 @@ public class Employee
         this.lastName = lastName;
         this.password = password;
     }
+    
+ //auto generate getter and setter
+    public int getE_ID() {
+        return E_ID;
+    }
+
+    private void setE_ID(int E_ID) {
+        this.E_ID = E_ID;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    private void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    private void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    private void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Random getRand() {
+        return rand;
+    }
+
+    private void setRand(Random rand) {
+        this.rand = rand;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    private void setMax(int max) {
+        this.max = max;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    private void setMin(int min) {
+        this.min = min;
+    }
+    
+    
 }
