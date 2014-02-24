@@ -18,6 +18,7 @@ import com.ACME.dataDAO.dataRDB.RDBTransactionDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import javax.annotation.PostConstruct;
@@ -79,7 +80,26 @@ public class AcmeBankStatlessSessionBean implements AcmeBankStatlessSessionBeanR
 
     @Override
     public boolean customerLogin(String c_id, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean operationResult=false; 
+        int id=Integer.valueOf(c_id);
+        try{
+            CustomerDAO dao=new RDBCustomerDAO(connection);
+            Collection<Customer> cl=dao.getAllCustomers();
+            for(Customer c:cl){
+                if(id==c.getC_ID()){
+                    if(password.equals(c.getPassword())){
+                       operationResult=true;
+                       
+                    }
+                }
+            }
+        }catch(Exception ex){
+            System.out.println("SERVER ERROR: Logining Customer <FN: "+c_id+" LN: "+password+" > fail.");
+          
+        }
+        
+        return operationResult;   
+    
     }
 
     @Override
@@ -193,5 +213,25 @@ public class AcmeBankStatlessSessionBean implements AcmeBankStatlessSessionBeanR
         }
         savingsList.add("Savings Account List\n");
         return savingsList;
+    }
+
+    @Override
+    public ArrayList getCustomer(String c_id) {
+         CustomerDAO dao=new RDBCustomerDAO(connection);
+         ArrayList<String> custList=new ArrayList<>();
+         Collection<Customer> cl=dao.getAllCustomers();
+         
+         for(Customer c:cl){
+             if(c.getC_ID()==Integer.valueOf(c_id)){
+                 custList.add(String.valueOf(c.getC_ID()));
+                 custList.add(c.getPassword());
+                 custList.add(c.getAddress());
+                 custList.add(c.getFirstName());
+                 custList.add(c.getLastName());
+                 custList.add(String.valueOf(c.getDateOfBirth()));
+                 
+             }
+        }
+        return custList;
     }
 }

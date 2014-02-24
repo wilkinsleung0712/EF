@@ -20,4 +20,6 @@ public interface CustomerDAO
     public void deleteCustomer(int customerId);
     public Collection getAllCustomers();
     public boolean checkCustomerExisted(Customer customer);
+    
+  
 }

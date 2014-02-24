@@ -6,7 +6,7 @@
   </jdbc-resource>
   <admin-object-resource enabled="true" jndi-name="jms/myACMEQueue" object-type="user" res-adapter="jmsra" res-type="javax.jms.Queue">
     <description>JMS Queue for ACME_BANKING SYSTEM</description>
-    <property name="Name" value="jms/myACMEQueue"/>
+    <property name="Name" value="myACMEQueue"/>
   </admin-object-resource>
   <connector-resource enabled="true" jndi-name="jms/myACMEQueueConnection" object-type="user" pool-name="jms/myACMEQueueConnection-Connection-Pool">
     <description>Connection for jms/myACMEQueue in ACME_BANKING SYSTEM</description>

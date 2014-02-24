@@ -6,12 +6,13 @@
 
 package com.ACME.JSFManagedBean;
 
+import com.ACME.MessageDriven.SenderSessionBean;
+import java.io.Serializable;
 import java.util.ArrayList;
-import javax.faces.application.FacesMessage;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIPanel;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -19,7 +20,12 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class HomeLoanJSFManagedBean {
+public class HomeLoanJSFManagedBean implements Serializable{
+    @EJB
+    private SenderSessionBean senderSessionBean;
+  
+   
+
 //variable for the logged in user information
     private int id;
 
@@ -43,6 +49,7 @@ public class HomeLoanJSFManagedBean {
     
     private UIPanel resultPanel;
 
+    
   
     
     /**
@@ -51,6 +58,26 @@ public class HomeLoanJSFManagedBean {
     public HomeLoanJSFManagedBean() {
     }
     
+  
+   
+    public void validateLogin(){
+   
+        //FacesContext context = FacesContext.getCurrentInstance();
+        // resultPanel.setRendered(true);
+        
+        // if (checkOperation()) {
+        //  context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correct", null));
+        //} //else {
+        //  context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incorrect", null));
+        // }
+        
+        //senderSessionBean.sendQueryToSavingSystemForUserLogin(hname, );
+     
+     }
+    
+    public String checkResult(){
+        return "Name: "+this.hname;
+    }
     
       //beginning of get and set methods 
 
@@ -153,22 +180,5 @@ public class HomeLoanJSFManagedBean {
     
     //end of auto generate getter and setter
 
-   
-    
-    
-    public void validateLogin(){
-        //FacesContext context = FacesContext.getCurrentInstance();
-       // resultPanel.setRendered(true);
-
-       // if (checkOperation()) {
-        //  context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correct", null));
-        //} //else {
-        //  context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incorrect", null));
-       // }
-        
-     }
-    
-    public String checkResult(){
-        return "Name: "+this.hname;
-    }
+  
 }
