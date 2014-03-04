@@ -9,15 +9,16 @@
     <h:body>
         <f:view>
             <h:form>
+                
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Customer ID:"></h:outputLabel>
-                    <h:inputText  value="#{loginJSFManagedBean.c_id}"></h:inputText>
+                    <h:inputText  id ="idinput" value="#{loginJSFManagedBean.c_id}"></h:inputText>
                     
                     <h:outputLabel value="Password:"></h:outputLabel>
-                    <h:inputText  value="#{loginJSFManagedBean.password}"></h:inputText>
+                    <h:inputText  id ="passwordinput" value="#{loginJSFManagedBean.password}"></h:inputText>
                     
                </h:panelGrid>
-                <h:commandButton action="#{loginJSFManagedBean.customerLogin()}" value="Validate"></h:commandButton>
+                <h:commandButton  action="#{loginJSFManagedBean.customerLogin}" id="submit" value="Submit"></h:commandButton>
                 
                 #{homeLoanJSFManagedBean.checkResult()}
                 

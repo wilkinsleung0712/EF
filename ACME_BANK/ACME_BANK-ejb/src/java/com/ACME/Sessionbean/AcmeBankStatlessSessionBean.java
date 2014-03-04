@@ -218,18 +218,24 @@ public class AcmeBankStatlessSessionBean implements AcmeBankStatlessSessionBeanR
     @Override
     public ArrayList getCustomer(String c_id) {
          CustomerDAO dao=new RDBCustomerDAO(connection);
+         SavingsDAO sdao=new RDBSavingsDAO(connection);
          ArrayList<String> custList=new ArrayList<>();
+         ArrayList<String> acctList=new ArrayList<>();
          Collection<Customer> cl=dao.getAllCustomers();
          
          for(Customer c:cl){
              if(c.getC_ID()==Integer.valueOf(c_id)){
+                 
                  custList.add(String.valueOf(c.getC_ID()));
                  custList.add(c.getPassword());
                  custList.add(c.getAddress());
                  custList.add(c.getFirstName());
                  custList.add(c.getLastName());
                  custList.add(String.valueOf(c.getDateOfBirth()));
-                 
+                 Collection<Savings> sl=sdao.getSavingAccountsByCustomer(c.getC_ID());
+                 for(Savings s:sl){
+                     custList.add(s.toString());
+                 }
              }
         }
         return custList;

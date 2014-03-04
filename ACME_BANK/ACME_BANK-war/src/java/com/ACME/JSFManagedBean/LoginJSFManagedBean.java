@@ -11,6 +11,11 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
+import javax.jms.MapMessage;
 
 /**
  *
@@ -47,8 +52,32 @@ public class LoginJSFManagedBean implements Serializable{
         this.password = password;
     }
     
-    public void customerLogin(){
-        senderSessionBean.sendQueryToSavingSystemForUserLogin(c_id, password);
+    public String customerLogin(){
+        String result=senderSessionBean.sendQueryToSavingSystemForUserLogin(c_id, password);
+        return result;
     }
+    //end of auto generated setter and getter
     
+    
+    public void sendJMSMessageToQueue(ComponentSystemEvent event){
+        //first is to the get the values from the browser (start)
+        UIComponent uic = event.getComponent();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        
+        UIInput browserID = (UIInput)uic.findComponent("idinput");
+        UIInput browserPW = (UIInput)uic.findComponent("passwordinput");
+        
+        String browserIDValue = browserID.getLocalValue().toString();
+
+        String browserPWValue = browserPW.getLocalValue().toString();
+        String browserPWid = browserPW.getClientId().toString();
+        
+        try{
+          senderSessionBean.sendQueryToSavingSystemForUserLogin(c_id, password);
+        }
+
+        catch(Exception e){
+            
+        }
+    }
 }

@@ -132,7 +132,7 @@ public class RDBSavingsDAO implements SavingsDAO
         try
         {
             PreparedStatement sqlStatement = dbConnection.prepareStatement(SQL_GETALL_SAVINGS);
-
+            
             ResultSet result = sqlStatement.executeQuery();
 
             while (result.next())
@@ -154,5 +154,28 @@ public class RDBSavingsDAO implements SavingsDAO
         return savingsAccountList;
     }
 
+    @Override
+    public Collection getSavingAccountsByCustomer(int C_ID){
+        try
+        {
+            PreparedStatement sqlStatement = dbConnection.prepareStatement(SQL_READ_SAVINGS_BY_C_ID);
+            sqlStatement.setInt(1, C_ID);
+            ResultSet result = sqlStatement.executeQuery();
+
+            while (result.next())
+            {
+                Savings savingsAccount = new Savings(result.getInt("C_ID"),
+                        result.getInt("ACCNUM"),
+                        result.getDouble("BALANCE"));
+
+                savingsAccountList.add(savingsAccount);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            System.out.println(sqlException.getMessage());
+        }
+        return savingsAccountList;
+    } 
    
 }

@@ -16,4 +16,5 @@ import javax.ejb.Remote;
 @Remote
 public interface SenderSessionBeanRemote {
      public void exchangeUserInfo(Collection o);
+     public void userLoginValudation(String c_id,String c_password);
 }

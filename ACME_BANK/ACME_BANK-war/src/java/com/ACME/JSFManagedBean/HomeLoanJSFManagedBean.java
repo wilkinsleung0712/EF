@@ -22,6 +22,9 @@ import javax.faces.component.UIPanel;
 @SessionScoped
 public class HomeLoanJSFManagedBean implements Serializable{
     @EJB
+    private SenderSessionBean senderSessionBean1;
+  
+    @EJB
     private SenderSessionBean senderSessionBean;
   
    
@@ -180,5 +183,6 @@ public class HomeLoanJSFManagedBean implements Serializable{
     
     //end of auto generate getter and setter
 
+    }
   
-}
+

@@ -103,4 +103,10 @@ public class Savings
         }
         return false;
     }
+ 
+    @Override
+    public String toString(){
+        return "Account Number :"+this.accNumber+" Balacnec :"+this.balance;
+        
+    }
 }

@@ -6,10 +6,10 @@
 
 package com.ACME.MessageDriven;
 
+import com.ACME.DataStore.PersonalDataStoreStateful;
 import com.ACME.JSFManagedBean.HomeLoanJSFManagedBean;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
@@ -25,6 +25,9 @@ import javax.jms.MessageListener;
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/myACMEQueue")
 })
 public class HomeLoanSystemMessageBean implements MessageListener {
+    @EJB
+    private PersonalDataStoreStateful dataStore;
+    
     
     public HomeLoanSystemMessageBean() {
     }
@@ -35,12 +38,22 @@ public class HomeLoanSystemMessageBean implements MessageListener {
         try {
             if(message instanceof MapMessage){
                 MapMessage map=(MapMessage) message;
-                System.out.println("message demap from homeloan bean"+map.getString("C_ID"));
-                System.out.println("message demap from homeloan bean"+map.getString("PASSWORD"));
-                System.out.println("message demap from homeloan bean"+map.getString("ADDRESS"));
-                System.out.println("message demap from homeloan bean"+map.getString("FIRSTNAME"));
-                System.out.println("message demap from homeloan bean"+map.getString("LASTNAME")); 
-                //homeJSFPage.setHaddress(map.getString("ADDRESS"));
+                if(map.getString("ACME_BANK_SYSTEM_ACK").equalsIgnoreCase("USER LOGIN")&&map.itemExists("C_ID")){
+                    System.out.println("message demap from homeloan bean"+map.getString("C_ID"));
+                    System.out.println("message demap from homeloan bean"+map.getString("PASSWORD"));
+                    System.out.println("message demap from homeloan bean"+map.getString("ADDRESS"));
+                    System.out.println("message demap from homeloan bean"+map.getString("FIRSTNAME"));
+                    System.out.println("message demap from homeloan bean"+map.getString("LASTNAME")); 
+                  
+                   dataStore.setPassword(map.getString("PASSWORD"));
+                   dataStore.setFirstname(map.getString("FIRSTNAME"));
+                   dataStore.setLastname(map.getString("LASTNAME"));
+                   dataStore.setSaving_one(map.getString("ACCOUNT_ONE"));
+                   dataStore.setSaving_two(map.getString("ACCOUNT_TWO"));
+               
+                    
+                }
+                
             } 
         } catch (JMSException ex) {
                System.out.println("Message is not an instance of MapMessage.");

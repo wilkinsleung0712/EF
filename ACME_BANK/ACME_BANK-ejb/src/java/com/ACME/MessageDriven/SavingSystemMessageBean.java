@@ -46,12 +46,17 @@ public class SavingSystemMessageBean implements MessageListener {
               //login information
               if(message instanceof MapMessage){
                   MapMessage map=(MapMessage) message;
-                  String c_id = map.getString("C_ID");
-                  String password=map.getString("PASSWORD");
-                  if(customerSessionBean.customerLogin(c_id, password)){
-                      ArrayList<String> ts=(ArrayList<String>) customerSessionBean.getCustomer(c_id);
-                      senderSessionBean.exchangeUserInfo(ts);
+                  //determind what this message is using for(i.e. the purpose of the message)
+                  if(map.getString("ACME_BANK_SYSTEM_QUERY").equalsIgnoreCase("LOGIN")){
+                      String c_id = map.getString("C_ID");
+                      String password=map.getString("PASSWORD");
+                        if(customerSessionBean.customerLogin(c_id, password)){
+                            ArrayList<String> ts=(ArrayList<String>) customerSessionBean.getCustomer(c_id); 
+                            senderSessionBean.exchangeUserInfo(ts);
+                        }
                   }
+                  
+                  
                  
               }
                

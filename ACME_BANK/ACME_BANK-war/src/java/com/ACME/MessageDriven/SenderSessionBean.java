@@ -37,15 +37,17 @@ public class SenderSessionBean {
         context.createProducer().send(myACMEQueue, messageData);
     }
     
-    public void sendQueryToSavingSystemForUserLogin(String c_id, String  password){
+    public String sendQueryToSavingSystemForUserLogin(String c_id, String  password){
         try {
             MapMessage map = context.createMapMessage();
-            map.setString("JMS", "LOGIN");
+            map.setString("ACME_BANK_SYSTEM_QUERY", "LOGIN");
             map.setString("C_ID", c_id);
             map.setString("PASSWORD", password);
              context.createProducer().send(myACMEQueue, map);
+             return "SUCCESS";
         } catch (JMSException ex) {
             System.out.println("ERROR: ERROR CORRUTED ON USER LOGIN ");
+            return "FAIL";
         }    
     }
     
